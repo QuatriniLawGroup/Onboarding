@@ -1,21 +1,682 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Hire Onboarding Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quatrini Law Group — New Hire Onboarding Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:   #1e4530;
+    --mid:     #2d6147;
+    --sage:    #4a8a62;
+    --gold:    #c8a44a;
+    --gold-lt: #e2c472;
+    --cream:   #f6f2ea;
+    --off-wh:  #faf8f4;
+    --border:  #d9d0be;
+    --dark:    #252525;
+    --muted:   #636363;
+    --red:     #c53030;
+    --info-bg: #eef5f0;
+    --info-bd: #b2d4be;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--off-wh);color:var(--dark);font-size:15px;line-height:1.5;}
+
+  /* ── HEADER ── */
+  header{background:var(--green);position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.28);}
+  .hdr{max-width:1160px;margin:0 auto;padding:0 2rem;height:72px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;}
+  .logo{display:flex;align-items:center;gap:.9rem;text-decoration:none;}
+  .logo-q{width:42px;height:42px;background:var(--gold);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--green);flex-shrink:0;}
+  .logo-firm{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:#fff;letter-spacing:.04em;}
+  .logo-tag{font-size:.65rem;color:var(--gold-lt);letter-spacing:.14em;text-transform:uppercase;font-style:italic;}
+  .hdr-nav{display:flex;align-items:center;gap:.75rem;}
+  .hdr-nav a{font-size:.78rem;color:rgba(255,255,255,.7);text-decoration:none;transition:color .15s;}
+  .hdr-nav a:hover{color:var(--gold-lt);}
+  .hdr-pill{background:rgba(200,164,74,.18);border:1px solid var(--gold);color:var(--gold-lt);padding:.28rem .9rem;border-radius:20px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ── HERO ── */
+  .hero{background:linear-gradient(135deg,var(--green) 0%,#25583c 55%,var(--mid) 100%);padding:4.5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40z'/%3E%3C/g%3E%3C/svg%3E");}
+  .hero>*{position:relative;}
+  .eye{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:.85rem;}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:300;color:#fff;line-height:1.15;margin-bottom:.9rem;}
+  .hero h1 em{color:var(--gold-lt);font-style:italic;}
+  .hero-sub{color:rgba(255,255,255,.68);font-size:.95rem;max-width:540px;margin:0 auto 2.2rem;line-height:1.75;font-weight:300;}
+  .hero-chips{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:.9rem 2rem;backdrop-filter:blur(8px);}
+  .chip{display:flex;align-items:center;gap:.45rem;color:rgba(255,255,255,.82);font-size:.8rem;text-decoration:none;}
+  .chip-n{width:22px;height:22px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;color:var(--green);}
+
+  /* ── PAGE ── */
+  .page{max-width:1160px;margin:0 auto;padding:3rem 2rem 5rem;}
+  .sec-eye{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500;margin-bottom:.3rem;}
+  .sec-h2{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:400;color:var(--green);margin-bottom:.4rem;}
+  .sec-desc{color:var(--muted);font-size:.875rem;line-height:1.65;max-width:620px;margin-bottom:1.75rem;}
+  .rule{height:1px;background:var(--border);margin-bottom:2rem;}
+  .anchor{display:block;position:relative;top:-80px;}
+
+  /* ── BANNERS ── */
+  .banner{border-radius:8px;padding:.9rem 1.25rem;display:flex;gap:.75rem;align-items:flex-start;font-size:.82rem;line-height:1.55;margin-bottom:1.5rem;}
+  .banner-green{background:var(--info-bg);border:1px solid var(--info-bd);color:#2d5a3d;}
+  .banner-blue{background:#f0f4ff;border:1px solid #bccdf5;color:#1e3a8a;}
+  .banner-amber{background:#fffbeb;border:1px solid #fde68a;color:#78400a;}
+  .banner a{color:inherit;font-weight:600;}
+
+  /* ── CARDS ── */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.4rem;margin-bottom:3.5rem;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s;}
+  .card:hover{box-shadow:0 8px 28px rgba(30,69,48,.13);transform:translateY(-2px);}
+  .card-hd{background:var(--green);padding:1.35rem 1.5rem;display:flex;align-items:flex-start;gap:.9rem;}
+  .card-ico{width:40px;height:40px;flex-shrink:0;background:rgba(200,164,74,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:1.18rem;color:#fff;font-weight:400;line-height:1.2;margin-bottom:.15rem;}
+  .card-sub{font-size:.68rem;color:rgba(255,255,255,.48);letter-spacing:.04em;}
+  .card-body{padding:1.4rem 1.5rem;flex:1;display:flex;flex-direction:column;gap:.9rem;}
+  .card-desc{font-size:.84rem;color:var(--muted);line-height:1.65;}
+  .card-actions{display:flex;flex-direction:column;gap:.5rem;margin-top:auto;}
+
+  /* ── BUTTONS ── */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.6rem 1.15rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all .18s;border:none;letter-spacing:.02em;width:100%;}
+  .btn-dark{background:var(--green);color:#fff;}
+  .btn-dark:hover{background:#112b1e;}
+  .btn-gold{background:var(--gold);color:var(--green);}
+  .btn-gold:hover{background:var(--gold-lt);}
+  .btn-ghost{background:transparent;color:var(--green);border:1.5px solid var(--green);}
+  .btn-ghost:hover{background:var(--cream);}
+  .btn-sage{background:transparent;color:var(--sage);border:1.5px solid var(--sage);}
+  .btn-sage:hover{background:rgba(74,138,98,.07);}
+  .btn-disabled{background:#e5e5e5;color:#999;cursor:not-allowed;pointer-events:none;}
+
+  /* ── OD PLACEHOLDER ── */
+  .od-placeholder{background:var(--cream);border:1.5px dashed var(--border);border-radius:6px;padding:.75rem 1rem;font-size:.75rem;color:var(--muted);line-height:1.55;display:flex;gap:.5rem;align-items:flex-start;}
+  .od-placeholder strong{color:var(--green);}
+
+  .help-box{display:none;background:var(--cream);border-radius:6px;padding:.8rem 1rem;font-size:.78rem;color:var(--muted);line-height:1.65;}
+  .help-box strong{color:var(--green);}
+
+  /* ── FORM ── */
+  .form-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:3.5rem;}
+  .form-hd{background:var(--green);padding:1.4rem 2rem;display:flex;align-items:center;gap:.9rem;}
+  .form-hd-ico{width:40px;height:40px;background:rgba(200,164,74,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;}
+  .form-hd-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;}
+  .form-hd-sub{font-size:.7rem;color:rgba(255,255,255,.5);letter-spacing:.04em;}
+  .form-body{padding:2rem;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem 1.5rem;}
+  .fg{display:flex;flex-direction:column;gap:.35rem;}
+  .fg.full{grid-column:1/-1;}
+  label{font-size:.76rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--green);}
+  label .req{color:var(--red);margin-left:2px;}
+  .opt{font-weight:300;text-transform:none;letter-spacing:0;color:var(--muted);font-size:.72rem;}
+  input[type=text],input[type=email],input[type=tel],input[type=date],select{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.6rem .85rem;font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--dark);transition:border-color .15s,box-shadow .15s;width:100%;outline:none;}
+  input:focus,select:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,138,98,.12);}
+  input.bad,select.bad{border-color:var(--red);}
+  .hint{font-size:.72rem;color:var(--muted);}
+  .ferr{font-size:.72rem;color:var(--red);display:none;}
+  .fdiv{height:1px;background:var(--border);margin:1.5rem 0;}
+  .fsec{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);font-weight:500;margin-bottom:.9rem;}
+  .sub-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.75rem;}
+  .sub-note{font-size:.78rem;color:var(--muted);}
+  .form-success{display:none;background:#edf7f1;border:1px solid #a8d5b8;border-radius:8px;padding:1.5rem 2rem;text-align:center;}
+  .fs-circle{width:52px;height:52px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;margin:0 auto 1rem;}
+  .form-success h4{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--green);margin-bottom:.5rem;}
+  .form-success p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+
+  /* ── HANDBOOK ── */
+  .hb{display:grid;grid-template-columns:260px 1fr;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:3.5rem;}
+  .hb-l{background:linear-gradient(180deg,var(--green),#28573e);padding:2.2rem 1.8rem;display:flex;flex-direction:column;gap:1.4rem;position:relative;overflow:hidden;}
+  .hb-l::after{content:'§';position:absolute;bottom:-24px;right:-8px;font-size:9rem;font-family:'Cormorant Garamond',serif;color:rgba(255,255,255,.04);line-height:1;}
+  .hb-badge{width:fit-content;background:rgba(200,164,74,.18);border:1px solid rgba(200,164,74,.4);color:var(--gold-lt);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .7rem;border-radius:20px;}
+  .hb-title{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:300;color:#fff;line-height:1.2;}
+  .hb-title em{color:var(--gold-lt);font-style:italic;}
+  .hb-meta{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6;}
+  .hb-toc{display:flex;flex-direction:column;gap:.38rem;}
+  .toc-r{display:flex;gap:.5rem;font-size:.73rem;color:rgba(255,255,255,.55);}
+  .toc-r span:first-child{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:.82rem;min-width:28px;}
+  .hb-r{padding:2.2rem;display:flex;flex-direction:column;justify-content:center;gap:1.35rem;}
+  .hb-blurb{font-size:.86rem;color:var(--muted);line-height:1.75;}
+  .hb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+  .hb-tile{background:var(--cream);border-radius:6px;padding:.7rem 1rem;border-left:3px solid var(--sage);}
+  .hb-tile-l{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--sage);font-weight:500;margin-bottom:.18rem;}
+  .hb-tile-v{font-size:.84rem;color:var(--dark);font-weight:500;}
+  .hb-btns{display:flex;gap:.7rem;flex-wrap:wrap;}
+  .hb-btns .btn{width:auto;}
+
+  /* ── CHECKLIST ── */
+  .cl{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:3.5rem;}
+  .cl-hd{padding:1.35rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .cl-hd h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:var(--green);}
+  .cl-pill{background:var(--cream);border:1px solid var(--border);padding:.28rem .85rem;border-radius:20px;font-size:.73rem;color:var(--muted);}
+  .cl-pill span{color:var(--sage);font-weight:600;}
+  .cl-body{padding:1rem 2rem;}
+  .cl-item{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;user-select:none;}
+  .cl-item:last-child{border-bottom:none;}
+  .cl-box{width:22px;height:22px;flex-shrink:0;border:2px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:all .15s;}
+  .cl-box.on{background:var(--sage);border-color:var(--sage);color:#fff;}
+  .cl-lbl{font-size:.86rem;color:var(--dark);flex:1;}
+  .cl-lbl.done{text-decoration:line-through;color:var(--muted);}
+  .tag{font-size:.65rem;padding:.18rem .6rem;border-radius:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:500;white-space:nowrap;}
+  .t-r{background:#fff0f0;color:#b91c1c;border:1px solid #fecaca;}
+  .t-b{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+  .t-p{background:#fffbeb;color:#854d0e;border:1px solid #fde68a;}
+
+  /* ── CONTACT ── */
+  .cstrip{background:var(--green);border-radius:10px;padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+  .cstrip h4{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;color:#fff;margin-bottom:.2rem;}
+  .cstrip p{font-size:.8rem;color:rgba(255,255,255,.5);}
+  .cstrip .btn{width:auto;}
+
+  @media(max-width:780px){
+    .hdr-nav a{display:none;}
+    .hero{padding:3rem 1.25rem 2.75rem;}
+    .page{padding:2rem 1.25rem 4rem;}
+    .grid{grid-template-columns:1fr;}
+    .hb{grid-template-columns:1fr;}
+    .hb-grid{grid-template-columns:1fr;}
+    .form-grid{grid-template-columns:1fr;}
+    .fg.full{grid-column:auto;}
+    .cstrip{flex-direction:column;align-items:flex-start;}
+    .sub-row{flex-direction:column;align-items:flex-start;}
+  }
+</style>
 </head>
 <body>
-    <h1>Welcome to the New Hire Onboarding Portal</h1>
-    <p>This portal will guide you through the onboarding process.</p>
-    <h2>Getting Started</h2>
-    <ul>
-        <li>Introduction to the Company</li>
-        <li>Benefits Overview</li>
-        <li>HR Policies</li>
-        <li>Setup Workspace</li>
-    </ul>
-    <h2>Resources</h2>
-    <p>For more information, please reach out to your onboarding coordinator.</p>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr">
+    <a class="logo" href="https://www.qrlegal.com" target="_blank">
+      <div class="logo-q">Q</div>
+      <div>
+        <div class="logo-firm">Quatrini Law Group, P.C.</div>
+        <div class="logo-tag">Injury · Disability · Employment</div>
+      </div>
+    </a>
+    <div class="hdr-nav">
+      <a href="https://www.qrlegal.com" target="_blank">qrlegal.com</a>
+      <a href="mailto:kmk@qrlegal.com">Contact Admin</a>
+      <div class="hdr-pill">New Hire Portal</div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eye">Welcome to Quatrini Law Group</div>
+  <h1>Your <em>Onboarding</em><br>Starts Here</h1>
+  <p class="hero-sub">Complete your personal information, submit required federal forms, enroll in benefits, and review firm policies — all in one place.</p>
+  <div class="hero-chips">
+    <a class="chip" href="#s1"><span class="chip-n">1</span> Personal Info</a>
+    <a class="chip" href="#s2"><span class="chip-n">2</span> Federal Forms</a>
+    <a class="chip" href="#s3"><span class="chip-n">3</span> Benefits &amp; Agreements</a>
+    <a class="chip" href="#s4"><span class="chip-n">4</span> Employee Handbook</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- SharePoint note -->
+  <div class="banner banner-blue">
+    <span>🏢</span>
+    <div><strong>SharePoint Users:</strong> This page is hosted in the firm's SharePoint intranet. Sign in with your <strong>@qrlegal.com</strong> Microsoft 365 credentials to access OneDrive upload folders. Email <a href="mailto:kmk@qrlegal.com">kmk@qrlegal.com</a> for access issues.</div>
+  </div>
+
+  <!-- ══ STEP 1 ══ -->
+  <a class="anchor" id="s1"></a>
+  <div class="sec-eye">Step 1 — New Hire Information</div>
+  <h2 class="sec-h2">Personal Information Form</h2>
+  <p class="sec-desc">Complete all required fields. This is sent directly to the office administrator to set up your employee file, payroll, and firm systems.</p>
+
+  <div class="form-card">
+    <div class="form-hd">
+      <div class="form-hd-ico">👤</div>
+      <div>
+        <div class="form-hd-title">New Employee Information</div>
+        <div class="form-hd-sub">Quatrini Law Group, P.C. · Confidential</div>
+      </div>
+    </div>
+    <div class="form-body">
+      <div id="fsuccess" class="form-success">
+        <div class="fs-circle">✓</div>
+        <h4>Information Submitted</h4>
+        <p>Your personal information has been sent to <strong>kmk@qrlegal.com</strong>.<br>Continue completing the remaining steps below.</p>
+      </div>
+      <form id="nhf" novalidate>
+
+        <div class="fsec">Legal Name</div>
+        <div class="form-grid">
+          <div class="fg">
+            <label for="fname">First Name <span class="req">*</span></label>
+            <input type="text" id="fname" placeholder="Jane" autocomplete="given-name">
+            <span class="ferr" id="e-fname">First name is required.</span>
+          </div>
+          <div class="fg">
+            <label for="lname">Last Name <span class="req">*</span></label>
+            <input type="text" id="lname" placeholder="Smith" autocomplete="family-name">
+            <span class="ferr" id="e-lname">Last name is required.</span>
+          </div>
+          <div class="fg">
+            <label for="preferred">Preferred Name <span class="opt">(optional)</span></label>
+            <input type="text" id="preferred" placeholder="If different from first name">
+          </div>
+          <div class="fg">
+            <label for="dob">Date of Birth <span class="req">*</span></label>
+            <input type="date" id="dob">
+            <span class="ferr" id="e-dob">Date of birth is required.</span>
+          </div>
+        </div>
+
+        <div class="fdiv"></div>
+        <div class="fsec">Home Address</div>
+        <div class="form-grid">
+          <div class="fg full">
+            <label for="addr1">Street Address <span class="req">*</span></label>
+            <input type="text" id="addr1" placeholder="123 Main Street" autocomplete="street-address">
+            <span class="ferr" id="e-addr1">Street address is required.</span>
+          </div>
+          <div class="fg">
+            <label for="addr2">Apt / Suite <span class="opt">(optional)</span></label>
+            <input type="text" id="addr2" placeholder="Apt 2B">
+          </div>
+          <div class="fg">
+            <label for="city">City <span class="req">*</span></label>
+            <input type="text" id="city" placeholder="Greensburg" autocomplete="address-level2">
+            <span class="ferr" id="e-city">City is required.</span>
+          </div>
+          <div class="fg">
+            <label for="pstate">State <span class="req">*</span></label>
+            <select id="pstate" autocomplete="address-level1">
+              <option value="">— Select —</option>
+              <option value="PA" selected>Pennsylvania</option>
+              <option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New York</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option>
+            </select>
+            <span class="ferr" id="e-pstate">State is required.</span>
+          </div>
+          <div class="fg">
+            <label for="zip">ZIP Code <span class="req">*</span></label>
+            <input type="text" id="zip" placeholder="15601" maxlength="10" autocomplete="postal-code">
+            <span class="ferr" id="e-zip">ZIP code is required.</span>
+          </div>
+        </div>
+
+        <div class="fdiv"></div>
+        <div class="fsec">Contact Information</div>
+        <div class="form-grid">
+          <div class="fg">
+            <label for="phone">Phone Number <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="(724) 000-0000" autocomplete="tel">
+            <span class="ferr" id="e-phone">Phone number is required.</span>
+          </div>
+          <div class="fg">
+            <label for="pemail">Personal Email Address <span class="req">*</span></label>
+            <input type="email" id="pemail" placeholder="jane@email.com" autocomplete="email">
+            <div class="hint">Use your personal email, not your firm address.</div>
+            <span class="ferr" id="e-pemail">A valid email address is required.</span>
+          </div>
+        </div>
+
+        <div class="fdiv"></div>
+        <div class="fsec">Employment Details</div>
+        <div class="form-grid">
+          <div class="fg">
+            <label for="startdate">Start Date <span class="req">*</span></label>
+            <input type="date" id="startdate">
+            <span class="ferr" id="e-startdate">Start date is required.</span>
+          </div>
+          <div class="fg">
+            <label for="position">Position / Title <span class="req">*</span></label>
+            <input type="text" id="position" placeholder="Legal Secretary">
+            <span class="ferr" id="e-position">Position is required.</span>
+          </div>
+          <div class="fg">
+            <label for="office">Primary Office <span class="req">*</span></label>
+            <select id="office">
+              <option value="">— Select —</option>
+              <option>Greensburg</option><option>Pittsburgh</option><option>Latrobe</option><option>Altoona</option><option>Somerset</option><option>Uniontown</option>
+            </select>
+            <span class="ferr" id="e-office">Office is required.</span>
+          </div>
+          <div class="fg">
+            <label for="emptype">Employment Type <span class="req">*</span></label>
+            <select id="emptype">
+              <option value="">— Select —</option>
+              <option>Regular Full-Time</option><option>Part-Time</option><option>Introductory</option><option>Temporary</option>
+            </select>
+            <span class="ferr" id="e-emptype">Employment type is required.</span>
+          </div>
+        </div>
+
+        <div class="fdiv"></div>
+        <div class="fsec">Emergency Contact</div>
+        <div class="form-grid">
+          <div class="fg">
+            <label for="ecname">Contact Name <span class="req">*</span></label>
+            <input type="text" id="ecname" placeholder="John Smith">
+            <span class="ferr" id="e-ecname">Emergency contact name is required.</span>
+          </div>
+          <div class="fg">
+            <label for="ecrel">Relationship <span class="req">*</span></label>
+            <input type="text" id="ecrel" placeholder="Spouse">
+            <span class="ferr" id="e-ecrel">Relationship is required.</span>
+          </div>
+          <div class="fg">
+            <label for="ecphone">Contact Phone <span class="req">*</span></label>
+            <input type="tel" id="ecphone" placeholder="(724) 000-0000">
+            <span class="ferr" id="e-ecphone">Emergency contact phone is required.</span>
+          </div>
+        </div>
+
+        <div class="sub-row">
+          <div class="sub-note">Fields marked <strong style="color:var(--red)">*</strong> are required. Sent securely to <strong>kmk@qrlegal.com</strong>.</div>
+          <button type="submit" class="btn btn-gold" style="width:auto;padding:.72rem 2rem;font-size:.88rem;">✉ Submit Information</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2 — FEDERAL FORMS ══ -->
+  <a class="anchor" id="s2"></a>
+  <div class="sec-eye">Step 2 — Required Federal Forms</div>
+  <h2 class="sec-h2">Tax &amp; Eligibility Paperwork</h2>
+  <p class="sec-desc">Download the blank form from the government source, fill it out, then upload your completed copy to OneDrive. Both actions are available on each card.</p>
+
+  <div class="banner banner-green">
+    <span>☁️</span>
+    <div><strong>How uploads work:</strong> Click "Upload to OneDrive" to open the firm's shared New Hire Documents folder. You must be signed in with your <strong>@qrlegal.com</strong> Microsoft account. Name your files clearly — e.g., <em>Smith_Jane_W4_2026.pdf</em>. Contact <a href="mailto:kmk@qrlegal.com">kmk@qrlegal.com</a> for access issues.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- W-4 -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ico">📋</div>
+        <div>
+          <div class="card-title">Form W-4 (2025)</div>
+          <div class="card-sub">Employee's Withholding Certificate · IRS</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Tells the firm how much federal income tax to withhold from your paycheck. Complete Steps 1 and 5 at minimum.</p>
+        <div class="card-actions">
+          <!-- Direct IRS PDF — confirmed working URL -->
+          <a class="btn btn-dark" href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" rel="noopener">
+            ⬇ Download Blank W-4 (IRS.gov)
+          </a>
+          <!-- ADMIN: Replace the href below with your actual OneDrive shared folder link -->
+          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+            ☁ Upload Completed W-4 to OneDrive
+          </a>
+          <button class="btn btn-sage" onclick="tog('hw4')">ℹ Tips for Completing</button>
+        </div>
+        <div id="hw4" class="help-box">
+          <strong>Quick Tips:</strong><br>
+          • Step 1: Enter your name, address, SSN, and filing status.<br>
+          • Step 2: Only complete if you hold more than one job or your spouse also works.<br>
+          • Step 3: Enter qualifying child/dependent credits if applicable.<br>
+          • Step 5: Sign and date — required for the form to be valid.
+        </div>
+      </div>
+    </div>
+
+    <!-- I-9 -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ico">🪪</div>
+        <div>
+          <div class="card-title">Form I-9 (2026)</div>
+          <div class="card-sub">Employment Eligibility Verification · USCIS</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Verifies your identity and right to work in the U.S. You complete Section 1; the firm completes Section 2 within 3 business days of your start date. Bring originals on Day 1.</p>
+        <div class="card-actions">
+          <!-- Direct USCIS PDF — confirmed working URL -->
+          <a class="btn btn-dark" href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" rel="noopener">
+            ⬇ Download Blank I-9 (USCIS.gov)
+          </a>
+          <!-- ADMIN: Replace the href below with your actual OneDrive shared folder link -->
+          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+            ☁ Upload Completed I-9 to OneDrive
+          </a>
+          <button class="btn btn-sage" onclick="tog('hi9')">ℹ Acceptable Documents</button>
+        </div>
+        <div id="hi9" class="help-box">
+          <strong>List A (any one):</strong> U.S. Passport, Permanent Resident Card, Employment Auth. Document.<br><br>
+          <strong>List B + C (one from each):</strong> Driver's license <em>plus</em> Social Security card or certified birth certificate.<br><br>
+          Bring <em>original</em> documents on Day 1 for the office administrator to complete Section 2.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ STEP 3 — BENEFITS ══ -->
+  <a class="anchor" id="s3"></a>
+  <div class="sec-eye">Step 3 — Benefits &amp; Firm Agreements</div>
+  <h2 class="sec-h2">401(k) Enrollment &amp; Required Agreements</h2>
+  <p class="sec-desc">Download each form from OneDrive, complete it, and upload your signed copy back. 401(k) forms must reach Alerus at least two weeks before your first deposit.</p>
+
+  <div class="banner banner-amber">
+    <span>📌</span>
+    <div><strong>Administrator note:</strong> The download links for firm-specific forms below currently point to your OneDrive folder. Make sure the Alerus Enrollment Form, Beneficiary Form, and Confidentiality Agreement PDFs are saved in your shared New Hire Documents folder so employees can access them.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 401K -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ico">💼</div>
+        <div>
+          <div class="card-title">401(k) Enrollment Form</div>
+          <div class="card-sub">Alerus Retirement &amp; Benefits · Plan RK-666411</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Choose your contribution amount, elect pre-tax or Roth deferral, and select investment allocations. If age 50+, catch-up contributions are permitted.</p>
+        <div class="card-actions">
+          <!-- ADMIN: Replace href with direct link to the Alerus Enrollment PDF in your OneDrive -->
+          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQBjwOuZhqZiTZkC7hqDIwHoAViwt_gnyklGEnwdeyhi_I0?e=6IJKlG" target="_blank" rel="noopener">
+            ⬇ Download Enrollment Form (OneDrive)
+          </a>
+          <!-- ADMIN: Replace href with your OneDrive upload folder link -->
+          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+            ☁ Upload Completed Form to OneDrive
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BENEFICIARY -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ico">👨‍👩‍👧</div>
+        <div>
+          <div class="card-title">Beneficiary Designation</div>
+          <div class="card-sub">Alerus Retirement &amp; Benefits · Plan RK-666411</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Name primary and contingent beneficiaries for your 401(k). If married and your spouse is not the sole primary beneficiary, notarized spousal consent is required.</p>
+        <div class="card-actions">
+          <!-- ADMIN: Replace href with direct link to the Beneficiary PDF in your OneDrive -->
+          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQD9EU6nzjpjSrsmwaePAPTNAT6BE54NYxgrz6oIg6qR7rM?e=zYYhPZ" target="_blank" rel="noopener">
+            ⬇ Download Beneficiary Form (OneDrive)
+          </a>
+          <!-- ADMIN: Replace href with your OneDrive upload folder link -->
+          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+            ☁ Upload Completed Form to OneDrive
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIDENTIALITY -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ico">🔒</div>
+        <div>
+          <div class="card-title">Confidentiality Agreement</div>
+          <div class="card-sub">Quatrini Law Group, P.C. · Required at Hire</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">All employees must sign the firm's confidentiality agreement. Client information, personnel matters, and firm business must be kept strictly confidential at all times.</p>
+        <div class="card-actions">
+          <!-- ADMIN: Replace href with direct link to the Confidentiality Agreement PDF in your OneDrive -->
+          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQCFJbqYrUF7SJAS1f8Euzh7AV3n4r_h2tSBZxRNH0CHdBo?e=HvDJ3e" target="_blank" rel="noopener">
+            ⬇ Download Agreement (OneDrive)
+          </a>
+          <!-- ADMIN: Replace href with your OneDrive upload folder link -->
+          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+            ☁ Upload Signed Agreement to OneDrive
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ STEP 4 — HANDBOOK ══ -->
+  <a class="anchor" id="s4"></a>
+  <div class="sec-eye">Step 4 — Firm Policies</div>
+  <div class="rule"></div>
+
+  <div class="hb">
+    <div class="hb-l">
+      <div class="hb-badge">Required Reading</div>
+      <div class="hb-title">Employee<br><em>Handbook</em></div>
+      <div class="hb-meta">Quatrini Law Group, P.C.<br>Current Edition · 28 pages</div>
+      <div class="hb-toc">
+        <div class="toc-r"><span>100</span><span>Employment &amp; Equal Opportunity</span></div>
+        <div class="toc-r"><span>200</span><span>Performance &amp; Categories</span></div>
+        <div class="toc-r"><span>300</span><span>Work Schedules &amp; Policies</span></div>
+        <div class="toc-r"><span>400</span><span>Paydays &amp; Separation</span></div>
+        <div class="toc-r"><span>500</span><span>Benefits &amp; Leave</span></div>
+        <div class="toc-r"><span>600</span><span>Leaves of Absence</span></div>
+        <div class="toc-r"><span>700</span><span>Conduct &amp; Appearance</span></div>
+        <div class="toc-r"><span>800</span><span>Workplace Health</span></div>
+      </div>
+    </div>
+    <div class="hb-r">
+      <p class="hb-blurb">The Employee Handbook outlines your rights, responsibilities, and the benefits available to you at Quatrini Law Group. All employees are expected to read, understand, and comply with its policies. The handbook does not constitute an employment contract — the firm operates as an at-will employer.</p>
+      <div class="hb-grid">
+        <div class="hb-tile"><div class="hb-tile-l">Work Hours</div><div class="hb-tile-v">8:30 AM – 4:30 PM</div></div>
+        <div class="hb-tile"><div class="hb-tile-l">Pay Schedule</div><div class="hb-tile-v">Biweekly · Wednesday</div></div>
+        <div class="hb-tile"><div class="hb-tile-l">Introductory Period</div><div class="hb-tile-v">90 Days</div></div>
+        <div class="hb-tile"><div class="hb-tile-l">Paid Holidays</div><div class="hb-tile-v">10 Per Year</div></div>
+        <div class="hb-tile"><div class="hb-tile-l">Vacation (Yr 1–5)</div><div class="hb-tile-v">10 Days / Year</div></div>
+        <div class="hb-tile"><div class="hb-tile-l">Dress Code</div><div class="hb-tile-v">Business (Casual Fri.)</div></div>
+      </div>
+      <div class="hb-btns">
+        <!-- ADMIN: Replace href with your OneDrive link to the Employee Handbook PDF -->
+        <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQCmOHhPsR0sSLdjQ5gobOOtAbdIxUl3MIvFVewBEBI-jMA?e=x5TzaZ" target="_blank" rel="noopener">📖 View Full Handbook (OneDrive)</a>
+        <a class="btn btn-ghost" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQCmOHhPsR0sSLdjQ5gobOOtAbdIxUl3MIvFVewBEBI-jMA?e=x5TzaZ" target="_blank" rel="noopener">⬇ Download PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CHECKLIST ══ -->
+  <div class="sec-eye">Your Progress</div>
+  <h2 class="sec-h2">Onboarding Checklist</h2>
+  <p class="sec-desc">Check each item as you complete it.</p>
+
+  <div class="cl">
+    <div class="cl-hd">
+      <h3>New Hire To-Do List</h3>
+      <div class="cl-pill"><span id="cnt">0</span> of 9 complete</div>
+    </div>
+    <div class="cl-body">
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Submit Personal Information Form (Step 1)</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download, complete, and upload Form W-4 to OneDrive</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download, complete, and upload Form I-9 to OneDrive</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Sign and upload Confidentiality Agreement to OneDrive</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Complete and submit 401(k) Enrollment Form to Alerus</div><span class="tag t-b">Benefits</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Complete and submit Beneficiary Designation Form</div><span class="tag t-b">Benefits</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Read the full Employee Handbook</div><span class="tag t-p">Policy</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Meet with office administrator to complete I-9 Section 2</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Review computer, email, and internet policies (§309)</div><span class="tag t-p">Policy</span></div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="cstrip">
+    <div>
+      <h4>Questions? We're Here to Help.</h4>
+      <p>Contact the office administrator for assistance with any onboarding documents or to schedule your Day 1 orientation.</p>
+    </div>
+    <a class="btn btn-gold" href="mailto:kmk@qrlegal.com" style="padding:.7rem 1.8rem;font-size:.88rem;">✉ Email kmk@qrlegal.com</a>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function tog(id){var e=document.getElementById(id);e.style.display=e.style.display==='block'?'none':'block';}
+
+function tick(item){
+  var b=item.querySelector('.cl-box');
+  var l=item.querySelector('.cl-lbl');
+  var on=b.classList.toggle('on');
+  b.textContent=on?'✓':'';
+  l.classList.toggle('done',on);
+  document.getElementById('cnt').textContent=document.querySelectorAll('.cl-box.on').length;
+}
+
+document.getElementById('nhf').addEventListener('submit',function(e){
+  e.preventDefault();
+  var fields=[
+    {id:'fname'},{id:'lname'},{id:'dob'},
+    {id:'addr1'},{id:'city'},{id:'pstate'},{id:'zip'},
+    {id:'phone'},{id:'pemail',email:true},
+    {id:'startdate'},{id:'position'},{id:'office'},{id:'emptype'},
+    {id:'ecname'},{id:'ecrel'},{id:'ecphone'}
+  ];
+  var ok=true;
+  fields.forEach(function(f){
+    var el=document.getElementById(f.id);
+    var er=document.getElementById('e-'+f.id);
+    var v=el.value.trim();
+    var valid=v.length>0;
+    if(f.email&&valid) valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    el.classList.toggle('bad',!valid);
+    if(er) er.style.display=valid?'none':'block';
+    if(!valid) ok=false;
+  });
+  if(!ok){var first=document.querySelector('.bad');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}
+
+  function g(id){return document.getElementById(id).value.trim();}
+  var body=[
+    'NEW HIRE INFORMATION — QUATRINI LAW GROUP',
+    '==========================================',
+    '',
+    'NAME: '+g('fname')+' '+g('lname'),
+    'PREFERRED: '+g('preferred'),
+    'DATE OF BIRTH: '+g('dob'),
+    '',
+    'ADDRESS: '+g('addr1')+(g('addr2')?', '+g('addr2'):''),
+    'CITY/STATE/ZIP: '+g('city')+', '+g('pstate')+' '+g('zip'),
+    '',
+    'PHONE: '+g('phone'),
+    'PERSONAL EMAIL: '+g('pemail'),
+    '',
+    'START DATE: '+g('startdate'),
+    'POSITION: '+g('position'),
+    'OFFICE: '+g('office'),
+    'EMPLOYMENT TYPE: '+g('emptype'),
+    '',
+    'EMERGENCY CONTACT: '+g('ecname')+' ('+g('ecrel')+')',
+    'EMERGENCY PHONE: '+g('ecphone'),
+  ].join('\n');
+
+  var sub=encodeURIComponent('New Hire Information — '+g('fname')+' '+g('lname'));
+  window.location.href='mailto:kmk@qrlegal.com?subject='+sub+'&body='+encodeURIComponent(body);
+
+  document.getElementById('nhf').style.display='none';
+  document.getElementById('fsuccess').style.display='block';
+  document.getElementById('fsuccess').scrollIntoView({behavior:'smooth',block:'center'});
+});
+</script>
+
 </body>
 </html>
