@@ -166,6 +166,23 @@
   .cstrip p{font-size:.8rem;color:rgba(255,255,255,.5);}
   .cstrip .btn{width:auto;}
 
+  /* ── JOTFORM EMBED ── */
+  .jotform-wrap{padding:1.5rem 2rem 2rem;}
+  .jotform-wrap>*{max-width:100%!important;}
+  /* Override Jotform default styles to blend with portal */
+  .jotform-wrap .jotform-form{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;}
+  .jotform-wrap input,.jotform-wrap select,.jotform-wrap textarea{border:1.5px solid var(--border)!important;border-radius:6px!important;font-family:'DM Sans',sans-serif!important;font-size:.875rem!important;}
+  .jotform-wrap input:focus,.jotform-wrap select:focus,.jotform-wrap textarea:focus{border-color:var(--sage)!important;outline:none!important;box-shadow:0 0 0 3px rgba(74,138,98,.12)!important;}
+  .jotform-wrap [type=submit]{background:var(--gold)!important;color:var(--green)!important;border:none!important;border-radius:6px!important;font-family:'DM Sans',sans-serif!important;font-weight:600!important;padding:.7rem 2rem!important;cursor:pointer!important;}
+  .jotform-wrap [type=submit]:hover{background:var(--gold-lt)!important;}
+
+  /* ── DOCUMENT SUBMISSION CARD SHELL ── */
+  .doc-submit-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:3.5rem;}
+  .doc-submit-hd{background:var(--green);padding:1.4rem 2rem;display:flex;align-items:center;gap:.9rem;}
+  .doc-submit-hd-ico{width:40px;height:40px;background:rgba(200,164,74,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;}
+  .doc-submit-hd-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;}
+  .doc-submit-hd-sub{font-size:.7rem;color:rgba(255,255,255,.5);letter-spacing:.04em;}
+
   /* ── ID UPLOAD ── */
   .id-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:3.5rem;}
   .id-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
@@ -241,8 +258,9 @@
     <a class="chip" href="#s1"><span class="chip-n">1</span> Personal Info</a>
     <a class="chip" href="#s2"><span class="chip-n">2</span> Federal Forms</a>
     <a class="chip" href="#s3"><span class="chip-n">3</span> Benefits &amp; Agreements</a>
-    <a class="chip" href="#s-id"><span class="chip-n">4</span> Upload IDs</a>
-    <a class="chip" href="#s4"><span class="chip-n">5</span> Employee Handbook</a>
+    <a class="chip" href="#s-submit"><span class="chip-n">4</span> Submit Documents</a>
+    <a class="chip" href="#s-id"><span class="chip-n">5</span> Upload IDs</a>
+    <a class="chip" href="#s4"><span class="chip-n">6</span> Employee Handbook</a>
   </div>
 </div>
 
@@ -282,6 +300,10 @@
             <label for="fname">First Name <span class="req">*</span></label>
             <input type="text" id="fname" placeholder="Jane" autocomplete="given-name">
             <span class="ferr" id="e-fname">First name is required.</span>
+          </div>
+          <div class="fg">
+            <label for="mi">Middle Initial <span class="opt">(optional)</span></label>
+            <input type="text" id="mi" placeholder="A" maxlength="1" style="text-transform:uppercase;">
           </div>
           <div class="fg">
             <label for="lname">Last Name <span class="req">*</span></label>
@@ -411,12 +433,7 @@
   <a class="anchor" id="s2"></a>
   <div class="sec-eye">Step 2 — Required Federal Forms</div>
   <h2 class="sec-h2">Tax &amp; Eligibility Paperwork</h2>
-  <p class="sec-desc">Download the blank form from the government source, fill it out, then upload your completed copy to OneDrive. Both actions are available on each card.</p>
-
-  <div class="banner banner-green">
-    <span>☁️</span>
-    <div><strong>How uploads work:</strong> Click "Upload to OneDrive" to open the firm's shared New Hire Documents folder. You must be signed in with your <strong>@qrlegal.com</strong> Microsoft account. Name your files clearly — e.g., <em>Smith_Jane_W4_2026.pdf</em>. Contact <a href="mailto:kmk@qrlegal.com">kmk@qrlegal.com</a> for access issues.</div>
-  </div>
+  <p class="sec-desc">Download each blank form, complete it, and save it to your computer. You will attach all completed forms in the <strong>Submit Documents</strong> section at the bottom of this page.</p>
 
   <div class="grid">
 
@@ -432,14 +449,7 @@
       <div class="card-body">
         <p class="card-desc">Tells the firm how much federal income tax to withhold from your paycheck. Complete Steps 1 and 5 at minimum.</p>
         <div class="card-actions">
-          <!-- Direct IRS PDF — confirmed working URL -->
-          <a class="btn btn-dark" href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" rel="noopener">
-            ⬇ Download Blank W-4 (IRS.gov)
-          </a>
-          <!-- ADMIN: Replace the href below with your actual OneDrive shared folder link -->
-          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
-            ☁ Upload Completed W-4 to OneDrive
-          </a>
+          <a class="btn btn-dark" href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" rel="noopener">⬇ Download Blank W-4 (IRS.gov)</a>
           <button class="btn btn-sage" onclick="tog('hw4')">ℹ Tips for Completing</button>
         </div>
         <div id="hw4" class="help-box">
@@ -462,16 +472,9 @@
         </div>
       </div>
       <div class="card-body">
-        <p class="card-desc">Verifies your identity and right to work in the U.S. You complete Section 1; the firm completes Section 2 within 3 business days of your start date. Bring originals on Day 1.</p>
+        <p class="card-desc">Verifies your identity and right to work in the U.S. Complete Section 1 only — the firm completes Section 2 on your first day. Bring original ID documents.</p>
         <div class="card-actions">
-          <!-- Direct USCIS PDF — confirmed working URL -->
-          <a class="btn btn-dark" href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" rel="noopener">
-            ⬇ Download Blank I-9 (USCIS.gov)
-          </a>
-          <!-- ADMIN: Replace the href below with your actual OneDrive shared folder link -->
-          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
-            ☁ Upload Completed I-9 to OneDrive
-          </a>
+          <a class="btn btn-dark" href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" rel="noopener">⬇ Download Blank I-9 (USCIS.gov)</a>
           <button class="btn btn-sage" onclick="tog('hi9')">ℹ Acceptable Documents</button>
         </div>
         <div id="hi9" class="help-box">
@@ -488,12 +491,7 @@
   <a class="anchor" id="s3"></a>
   <div class="sec-eye">Step 3 — Benefits &amp; Firm Agreements</div>
   <h2 class="sec-h2">401(k) Enrollment &amp; Required Agreements</h2>
-  <p class="sec-desc">Download each form from OneDrive, complete it, and upload your signed copy back. 401(k) forms must reach Alerus at least two weeks before your first deposit.</p>
-
-  <div class="banner banner-amber">
-    <span>📌</span>
-    <div><strong>Administrator note:</strong> The download links for firm-specific forms below currently point to your OneDrive folder. Make sure the Alerus Enrollment Form, Beneficiary Form, and Confidentiality Agreement PDFs are saved in your shared New Hire Documents folder so employees can access them.</div>
-  </div>
+  <p class="sec-desc">Download each form, complete and sign it, and save it to your computer. You will attach all completed forms together in the <strong>Submit Documents</strong> section below.</p>
 
   <div class="grid">
 
@@ -509,14 +507,7 @@
       <div class="card-body">
         <p class="card-desc">Choose your contribution amount, elect pre-tax or Roth deferral, and select investment allocations. If age 50+, catch-up contributions are permitted.</p>
         <div class="card-actions">
-          <!-- ADMIN: Replace href with direct link to the Alerus Enrollment PDF in your OneDrive -->
-          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQBjwOuZhqZiTZkC7hqDIwHoAViwt_gnyklGEnwdeyhi_I0?e=6IJKlG" target="_blank" rel="noopener">
-            ⬇ Download Enrollment Form (OneDrive)
-          </a>
-          <!-- ADMIN: Replace href with your OneDrive upload folder link -->
-          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
-            ☁ Upload Completed Form to OneDrive
-          </a>
+          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQBjwOuZhqZiTZkC7hqDIwHoAViwt_gnyklGEnwdeyhi_I0?e=6IJKlG" target="_blank" rel="noopener">⬇ Download Enrollment Form</a>
         </div>
       </div>
     </div>
@@ -533,14 +524,7 @@
       <div class="card-body">
         <p class="card-desc">Name primary and contingent beneficiaries for your 401(k). If married and your spouse is not the sole primary beneficiary, notarized spousal consent is required.</p>
         <div class="card-actions">
-          <!-- ADMIN: Replace href with direct link to the Beneficiary PDF in your OneDrive -->
-          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQD9EU6nzjpjSrsmwaePAPTNAT6BE54NYxgrz6oIg6qR7rM?e=zYYhPZ" target="_blank" rel="noopener">
-            ⬇ Download Beneficiary Form (OneDrive)
-          </a>
-          <!-- ADMIN: Replace href with your OneDrive upload folder link -->
-          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
-            ☁ Upload Completed Form to OneDrive
-          </a>
+          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQD9EU6nzjpjSrsmwaePAPTNAT6BE54NYxgrz6oIg6qR7rM?e=zYYhPZ" target="_blank" rel="noopener">⬇ Download Beneficiary Form</a>
         </div>
       </div>
     </div>
@@ -557,23 +541,37 @@
       <div class="card-body">
         <p class="card-desc">All employees must sign the firm's confidentiality agreement. Client information, personnel matters, and firm business must be kept strictly confidential at all times.</p>
         <div class="card-actions">
-          <!-- ADMIN: Replace href with direct link to the Confidentiality Agreement PDF in your OneDrive -->
-          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQCFJbqYrUF7SJAS1f8Euzh7AV3n4r_h2tSBZxRNH0CHdBo?e=HvDJ3e" target="_blank" rel="noopener">
-            ⬇ Download Agreement (OneDrive)
-          </a>
-          <!-- ADMIN: Replace href with your OneDrive upload folder link -->
-          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
-            ☁ Upload Signed Agreement to OneDrive
-          </a>
+          <a class="btn btn-dark" href="https://quatrini-my.sharepoint.com/:b:/g/personal/kmk_qrlegal_com/IQCFJbqYrUF7SJAS1f8Euzh7AV3n4r_h2tSBZxRNH0CHdBo?e=HvDJ3e" target="_blank" rel="noopener">⬇ Download Agreement</a>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ══ STEP 4 — ID UPLOAD ══ -->
+  <!-- ══ SUBMIT ALL DOCUMENTS ══ -->
+  <a class="anchor" id="s-submit"></a>
+  <div class="sec-eye">Step 4 — Submit Your Completed Forms</div>
+  <h2 class="sec-h2">Attach &amp; Send All Documents</h2>
+  <p class="sec-desc">Use the secure form below to upload all of your completed documents in one submission. You will receive a confirmation and the office administrator will be notified automatically.</p>
+
+  <div class="doc-submit-card">
+    <div class="doc-submit-hd">
+      <div class="doc-submit-hd-ico">📨</div>
+      <div>
+        <div class="doc-submit-hd-title">Document Submission</div>
+        <div class="doc-submit-hd-sub">Powered by Jotform · Files delivered securely to kmk@qrlegal.com</div>
+      </div>
+    </div>
+    <div class="doc-submit-body" style="padding:0;">
+      <div class="jotform-wrap">
+        <script type="text/javascript" src="https://form.jotform.com/jsform/261255830085052"></script>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 5 — ID UPLOAD ══ -->
   <a class="anchor" id="s-id"></a>
-  <div class="sec-eye">Step 4 — Identity Verification</div>
+  <div class="sec-eye">Step 5 — Identity Verification</div>
   <h2 class="sec-h2">Upload Your ID Documents</h2>
   <p class="sec-desc">Federal law requires two forms of identification for Form I-9. Select your document type, attach a photo or scan, and click Send — your IDs will be emailed directly to the office administrator.</p>
 
@@ -726,17 +724,18 @@
   <div class="cl">
     <div class="cl-hd">
       <h3>New Hire To-Do List</h3>
-      <div class="cl-pill"><span id="cnt">0</span> of 11 complete</div>
+      <div class="cl-pill"><span id="cnt">0</span> of 12 complete</div>
     </div>
     <div class="cl-body">
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Submit Personal Information Form (Step 1)</div><span class="tag t-r">Required</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download, complete, and upload Form W-4 to OneDrive</div><span class="tag t-r">Required</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download, complete, and upload Form I-9 to OneDrive</div><span class="tag t-r">Required</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Sign and upload Confidentiality Agreement to OneDrive</div><span class="tag t-r">Required</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Complete and submit 401(k) Enrollment Form to Alerus</div><span class="tag t-b">Benefits</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Complete and submit Beneficiary Designation Form</div><span class="tag t-b">Benefits</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Send Primary ID Document (Document 1) to administrator</div><span class="tag t-r">Required</span></div>
-      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Send Secondary ID Document (Document 2) if applicable</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download and complete Form W-4</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download and complete Form I-9</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download and sign Confidentiality Agreement</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download and complete 401(k) Enrollment Form</div><span class="tag t-b">Benefits</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Download and complete Beneficiary Designation Form</div><span class="tag t-b">Benefits</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Submit all completed documents via email (Step 4)</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Send Primary ID Document (Step 5)</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Send Secondary ID Document if applicable (Step 5)</div><span class="tag t-r">Required</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Read the full Employee Handbook</div><span class="tag t-p">Policy</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Meet with office administrator to complete I-9 Section 2</div><span class="tag t-r">Required</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Review computer, email, and internet policies (§309)</div><span class="tag t-p">Policy</span></div>
@@ -851,7 +850,7 @@ document.getElementById('nhf').addEventListener('submit',function(e){
   btn.innerHTML='<span class="spinner"></span> Sending...';
 
   var params={
-    from_name:    g('fname')+' '+g('lname'),
+    from_name:    g('fname')+(g('mi')?' '+g('mi').toUpperCase()+'.':'')+' '+g('lname'),
     reply_to:     g('pemail'),
     dob:          g('dob'),
     preferred:    g('preferred')||'—',
@@ -910,8 +909,9 @@ function sendIDs(){
 
   // Get new hire name from form if filled, else use generic label
   var fname=(document.getElementById('fname')||{}).value||'';
+  var mi=(document.getElementById('mi')||{}).value||'';
   var lname=(document.getElementById('lname')||{}).value||'';
-  var hiName=fname&&lname?fname+' '+lname:'New Hire';
+  var hiName=fname&&lname?fname+(mi?' '+mi.toUpperCase()+'.':'')+' '+lname:'New Hire';
 
   Promise.all([
     toBase64(id1File),
