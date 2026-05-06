@@ -166,7 +166,39 @@
   .cstrip p{font-size:.8rem;color:rgba(255,255,255,.5);}
   .cstrip .btn{width:auto;}
 
+  /* ── ID UPLOAD ── */
+  .id-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:3.5rem;}
+  .id-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .id-hd{background:var(--green);padding:1.2rem 1.5rem;display:flex;align-items:center;gap:.85rem;}
+  .id-ico{width:38px;height:38px;flex-shrink:0;background:rgba(200,164,74,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+  .id-title{font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:#fff;font-weight:400;line-height:1.2;}
+  .id-sub{font-size:.68rem;color:rgba(255,255,255,.48);letter-spacing:.04em;margin-top:.1rem;}
+  .id-body{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:1rem;}
+  .id-desc{font-size:.84rem;color:var(--muted);line-height:1.6;}
+  .id-select{display:flex;flex-direction:column;gap:.35rem;}
+  .id-select label{font-size:.76rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--green);}
+  .id-select select{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.55rem .85rem;font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--dark);width:100%;outline:none;transition:border-color .15s,box-shadow .15s;}
+  .id-select select:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,138,98,.12);}
+  .drop-zone{border:2px dashed var(--border);border-radius:8px;padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--cream);position:relative;}
+  .drop-zone:hover,.drop-zone.dragover{border-color:var(--sage);background:rgba(74,138,98,.06);}
+  .drop-zone.has-file{border-color:var(--sage);border-style:solid;background:rgba(74,138,98,.05);}
+  .drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .drop-icon{font-size:1.8rem;opacity:.45;margin-bottom:.4rem;}
+  .drop-text{font-size:.8rem;color:var(--muted);line-height:1.5;}
+  .drop-text strong{color:var(--sage);}
+  .drop-formats{font-size:.7rem;color:#aaa;margin-top:.2rem;}
+  .file-name{font-size:.78rem;color:var(--sage);font-weight:500;margin-top:.4rem;display:none;word-break:break-all;}
+  .id-status{display:none;align-items:center;gap:.6rem;background:rgba(74,138,98,.1);border:1px solid rgba(74,138,98,.3);border-radius:6px;padding:.6rem .9rem;font-size:.8rem;color:var(--sage);}
+  .id-status.show{display:flex;}
+  .id-note{font-size:.75rem;color:var(--muted);line-height:1.55;background:var(--cream);border-radius:6px;padding:.7rem .9rem;border-left:3px solid var(--gold);}
+  .id-result{display:none;border-radius:6px;padding:.65rem .9rem;font-size:.8rem;margin-top:.25rem;text-align:center;}
+  .id-result.ok{display:block;background:#edf7f1;border:1px solid #a8d5b8;color:#276749;}
+  .id-result.err{display:block;background:#fff0f0;border:1px solid #fecaca;color:#b91c1c;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(30,69,48,.25);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px;}
+
   @media(max-width:780px){
+    .id-grid{grid-template-columns:1fr;}
     .hdr-nav a{display:none;}
     .hero{padding:3rem 1.25rem 2.75rem;}
     .page{padding:2rem 1.25rem 4rem;}
@@ -179,6 +211,7 @@
     .sub-row{flex-direction:column;align-items:flex-start;}
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -189,7 +222,6 @@
       <div class="logo-q">Q</div>
       <div>
         <div class="logo-firm">Quatrini Law Group, P.C.</div>
-        <div class="logo-tag">Injury · Disability · Employment</div>
       </div>
     </a>
     <div class="hdr-nav">
@@ -209,7 +241,8 @@
     <a class="chip" href="#s1"><span class="chip-n">1</span> Personal Info</a>
     <a class="chip" href="#s2"><span class="chip-n">2</span> Federal Forms</a>
     <a class="chip" href="#s3"><span class="chip-n">3</span> Benefits &amp; Agreements</a>
-    <a class="chip" href="#s4"><span class="chip-n">4</span> Employee Handbook</a>
+    <a class="chip" href="#s-id"><span class="chip-n">4</span> Upload IDs</a>
+    <a class="chip" href="#s4"><span class="chip-n">5</span> Employee Handbook</a>
   </div>
 </div>
 
@@ -404,7 +437,7 @@
             ⬇ Download Blank W-4 (IRS.gov)
           </a>
           <!-- ADMIN: Replace the href below with your actual OneDrive shared folder link -->
-          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
             ☁ Upload Completed W-4 to OneDrive
           </a>
           <button class="btn btn-sage" onclick="tog('hw4')">ℹ Tips for Completing</button>
@@ -436,7 +469,7 @@
             ⬇ Download Blank I-9 (USCIS.gov)
           </a>
           <!-- ADMIN: Replace the href below with your actual OneDrive shared folder link -->
-          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
             ☁ Upload Completed I-9 to OneDrive
           </a>
           <button class="btn btn-sage" onclick="tog('hi9')">ℹ Acceptable Documents</button>
@@ -481,7 +514,7 @@
             ⬇ Download Enrollment Form (OneDrive)
           </a>
           <!-- ADMIN: Replace href with your OneDrive upload folder link -->
-          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
             ☁ Upload Completed Form to OneDrive
           </a>
         </div>
@@ -505,7 +538,7 @@
             ⬇ Download Beneficiary Form (OneDrive)
           </a>
           <!-- ADMIN: Replace href with your OneDrive upload folder link -->
-          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
             ☁ Upload Completed Form to OneDrive
           </a>
         </div>
@@ -529,7 +562,7 @@
             ⬇ Download Agreement (OneDrive)
           </a>
           <!-- ADMIN: Replace href with your OneDrive upload folder link -->
-          <a class="btn btn-gold" href="C:\Users\Krystle\OneDrive - QLG" target="_blank" rel="noopener">
+          <a class="btn btn-gold" href="https://quatrini-my.sharepoint.com/personal/kmk_qrlegal_com/_layouts/15/onedrive.aspx" target="_blank" rel="noopener">
             ☁ Upload Signed Agreement to OneDrive
           </a>
         </div>
@@ -538,9 +571,117 @@
 
   </div>
 
-  <!-- ══ STEP 4 — HANDBOOK ══ -->
+  <!-- ══ STEP 4 — ID UPLOAD ══ -->
+  <a class="anchor" id="s-id"></a>
+  <div class="sec-eye">Step 4 — Identity Verification</div>
+  <h2 class="sec-h2">Upload Your ID Documents</h2>
+  <p class="sec-desc">Federal law requires two forms of identification for Form I-9. Select your document type, attach a photo or scan, and click Send — your IDs will be emailed directly to the office administrator.</p>
+
+  <div class="banner banner-green">
+    <span>🔐</span>
+    <div><strong>Privacy &amp; Security:</strong> Your ID files are sent directly and securely to <strong>kmk@qrlegal.com</strong> as email attachments. They are not stored on any third-party server. You must still bring original documents on your first day for Section 2 of the I-9.</div>
+  </div>
+
+  <div class="id-grid">
+
+    <!-- ID 1 -->
+    <div class="id-card">
+      <div class="id-hd">
+        <div class="id-ico">🪪</div>
+        <div>
+          <div class="id-title">Primary ID — Document 1</div>
+          <div class="id-sub">List A · OR · List B (Identity)</div>
+        </div>
+      </div>
+      <div class="id-body">
+        <p class="id-desc">Select your document type and upload a clear photo or scan.</p>
+        <div class="id-select">
+          <label for="id1-type">Document Type <span style="color:var(--red)">*</span></label>
+          <select id="id1-type">
+            <option value="">— Select document type —</option>
+            <optgroup label="List A — Identity &amp; Work Authorization">
+              <option>U.S. Passport or Passport Card</option>
+              <option>Permanent Resident Card (Form I-551)</option>
+              <option>Employment Authorization Document (Form I-766)</option>
+              <option>Foreign Passport with I-94</option>
+            </optgroup>
+            <optgroup label="List B — Identity Only">
+              <option>Driver's License (state-issued)</option>
+              <option>State-Issued ID Card</option>
+              <option>U.S. Military Card or Draft Record</option>
+              <option>Military Dependent's ID Card</option>
+              <option>Native American Tribal Document</option>
+              <option>Canadian Driver's License</option>
+            </optgroup>
+          </select>
+          <span class="ferr" id="e-id1-type">Please select a document type.</span>
+        </div>
+        <div>
+          <label style="font-size:.76rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--green);display:block;margin-bottom:.35rem;">Upload File <span style="color:var(--red)">*</span></label>
+          <div class="drop-zone" id="dz1">
+            <input type="file" id="id1-file" accept="image/*,.pdf" onchange="handleFile('id1-file','fn1','dz1','st1')">
+            <div class="drop-icon">📄</div>
+            <div class="drop-text"><strong>Click to browse</strong> or drag &amp; drop<br><span class="drop-formats">JPG, PNG, PDF · Max 10 MB</span></div>
+            <div class="file-name" id="fn1"></div>
+          </div>
+          <span class="ferr" id="e-id1-file">Please upload your primary ID document.</span>
+        </div>
+        <div class="id-status" id="st1"><span>✓</span><span id="st1-name"></span></div>
+      </div>
+    </div>
+
+    <!-- ID 2 -->
+    <div class="id-card">
+      <div class="id-hd">
+        <div class="id-ico">📋</div>
+        <div>
+          <div class="id-title">Secondary ID — Document 2</div>
+          <div class="id-sub">List C (Work Authorization) — if ID 1 is List B</div>
+        </div>
+      </div>
+      <div class="id-body">
+        <p class="id-desc">Required if your first document was List B (identity only). If your first document was a passport or permanent resident card (List A), this is optional.</p>
+        <div class="id-select">
+          <label for="id2-type">Document Type</label>
+          <select id="id2-type">
+            <option value="">— Select document type (if applicable) —</option>
+            <optgroup label="List C — Work Authorization">
+              <option>Social Security Card (unrestricted)</option>
+              <option>U.S. Birth Certificate (certified copy)</option>
+              <option>U.S. Citizen ID Card (Form I-197)</option>
+              <option>Native American Tribal Document</option>
+              <option>Employment Authorization from DHS</option>
+              <option>Certification of Birth Abroad (DS-1350 / FS-545)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:.76rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--green);display:block;margin-bottom:.35rem;">Upload File <span style="color:var(--muted);font-weight:300;text-transform:none;letter-spacing:0;font-size:.72rem;">(if applicable)</span></label>
+          <div class="drop-zone" id="dz2">
+            <input type="file" id="id2-file" accept="image/*,.pdf" onchange="handleFile('id2-file','fn2','dz2','st2')">
+            <div class="drop-icon">📄</div>
+            <div class="drop-text"><strong>Click to browse</strong> or drag &amp; drop<br><span class="drop-formats">JPG, PNG, PDF · Max 10 MB</span></div>
+            <div class="file-name" id="fn2"></div>
+          </div>
+        </div>
+        <div class="id-status" id="st2"><span>✓</span><span id="st2-name"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Send IDs button -->
+  <div style="text-align:center;margin-bottom:3.5rem;">
+    <button class="btn btn-gold" id="send-ids-btn" onclick="sendIDs()" style="width:auto;padding:.8rem 2.5rem;font-size:.95rem;">
+      ✉ Send ID Documents to Administrator
+    </button>
+    <div class="id-result" id="id-result"></div>
+    <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem;">Your documents will be emailed directly to kmk@qrlegal.com. Bring originals on your first day.</p>
+  </div>
+
+  <!-- ══ STEP 5 — HANDBOOK ══ -->
   <a class="anchor" id="s4"></a>
-  <div class="sec-eye">Step 4 — Firm Policies</div>
+  <div class="sec-eye">Step 5 — Firm Policies</div>
   <div class="rule"></div>
 
   <div class="hb">
@@ -585,7 +726,7 @@
   <div class="cl">
     <div class="cl-hd">
       <h3>New Hire To-Do List</h3>
-      <div class="cl-pill"><span id="cnt">0</span> of 9 complete</div>
+      <div class="cl-pill"><span id="cnt">0</span> of 11 complete</div>
     </div>
     <div class="cl-body">
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Submit Personal Information Form (Step 1)</div><span class="tag t-r">Required</span></div>
@@ -594,6 +735,8 @@
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Sign and upload Confidentiality Agreement to OneDrive</div><span class="tag t-r">Required</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Complete and submit 401(k) Enrollment Form to Alerus</div><span class="tag t-b">Benefits</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Complete and submit Beneficiary Designation Form</div><span class="tag t-b">Benefits</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Send Primary ID Document (Document 1) to administrator</div><span class="tag t-r">Required</span></div>
+      <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Send Secondary ID Document (Document 2) if applicable</div><span class="tag t-r">Required</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Read the full Employee Handbook</div><span class="tag t-p">Policy</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Meet with office administrator to complete I-9 Section 2</div><span class="tag t-r">Required</span></div>
       <div class="cl-item" onclick="tick(this)"><div class="cl-box"></div><div class="cl-lbl">Review computer, email, and internet policies (§309)</div><span class="tag t-p">Policy</span></div>
@@ -612,6 +755,16 @@
 </div><!-- /page -->
 
 <script>
+// ── EMAILJS KEYS ──────────────────────────────────────────
+var EMAILJS_PUBLIC_KEY  = 'UdQSwNGdcSn3s_Hyv';
+var EMAILJS_SERVICE_ID  = 'service_61x108t';
+var EMAILJS_TEMPLATE_ID = 'template_goh2bja';
+// ─────────────────────────────────────────────────────────
+
+// Initialise EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+// ── HELPERS ──────────────────────────────────────────────
 function tog(id){var e=document.getElementById(id);e.style.display=e.style.display==='block'?'none':'block';}
 
 function tick(item){
@@ -623,6 +776,52 @@ function tick(item){
   document.getElementById('cnt').textContent=document.querySelectorAll('.cl-box.on').length;
 }
 
+function handleFile(inputId,fnId,dzId,stId){
+  var input=document.getElementById(inputId);
+  var fn=document.getElementById(fnId);
+  var dz=document.getElementById(dzId);
+  var st=document.getElementById(stId);
+  if(!input.files||!input.files[0])return;
+  var file=input.files[0];
+  if(file.size>10*1024*1024){alert('File is too large. Please upload a file under 10 MB.');input.value='';return;}
+  fn.textContent='📎 '+file.name;
+  fn.style.display='block';
+  dz.classList.add('has-file');
+  var nameEl=document.getElementById(stId+'-name');
+  if(nameEl)nameEl.textContent=file.name;
+  if(st)st.classList.add('show');
+}
+
+// Drag-and-drop support
+['dz1','dz2'].forEach(function(dzId){
+  var dz=document.getElementById(dzId);
+  if(!dz)return;
+  dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('dragover');});
+  dz.addEventListener('dragleave',function(){dz.classList.remove('dragover');});
+  dz.addEventListener('drop',function(e){
+    e.preventDefault();dz.classList.remove('dragover');
+    var inputId=dzId==='dz1'?'id1-file':'id2-file';
+    var input=document.getElementById(inputId);
+    if(e.dataTransfer.files.length){
+      try{var dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);input.files=dt.files;}catch(err){}
+      var fnId=dzId==='dz1'?'fn1':'fn2';
+      var stId=dzId==='dz1'?'st1':'st2';
+      handleFile(inputId,fnId,dzId,stId);
+    }
+  });
+});
+
+// File → base64 helper
+function toBase64(file){
+  return new Promise(function(resolve,reject){
+    var r=new FileReader();
+    r.onload=function(){resolve(r.result);};
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── PERSONAL INFO FORM → EMAILJS ─────────────────────────
 document.getElementById('nhf').addEventListener('submit',function(e){
   e.preventDefault();
   var fields=[
@@ -638,44 +837,112 @@ document.getElementById('nhf').addEventListener('submit',function(e){
     var er=document.getElementById('e-'+f.id);
     var v=el.value.trim();
     var valid=v.length>0;
-    if(f.email&&valid) valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if(f.email&&valid)valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     el.classList.toggle('bad',!valid);
-    if(er) er.style.display=valid?'none':'block';
-    if(!valid) ok=false;
+    if(er)er.style.display=valid?'none':'block';
+    if(!valid)ok=false;
   });
   if(!ok){var first=document.querySelector('.bad');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}
 
   function g(id){return document.getElementById(id).value.trim();}
-  var body=[
-    'NEW HIRE INFORMATION — QUATRINI LAW GROUP',
-    '==========================================',
-    '',
-    'NAME: '+g('fname')+' '+g('lname'),
-    'PREFERRED: '+g('preferred'),
-    'DATE OF BIRTH: '+g('dob'),
-    '',
-    'ADDRESS: '+g('addr1')+(g('addr2')?', '+g('addr2'):''),
-    'CITY/STATE/ZIP: '+g('city')+', '+g('pstate')+' '+g('zip'),
-    '',
-    'PHONE: '+g('phone'),
-    'PERSONAL EMAIL: '+g('pemail'),
-    '',
-    'START DATE: '+g('startdate'),
-    'POSITION: '+g('position'),
-    'OFFICE: '+g('office'),
-    'EMPLOYMENT TYPE: '+g('emptype'),
-    '',
-    'EMERGENCY CONTACT: '+g('ecname')+' ('+g('ecrel')+')',
-    'EMERGENCY PHONE: '+g('ecphone'),
-  ].join('\n');
 
-  var sub=encodeURIComponent('New Hire Information — '+g('fname')+' '+g('lname'));
-  window.location.href='mailto:kmk@qrlegal.com?subject='+sub+'&body='+encodeURIComponent(body);
+  var btn=document.getElementById('form-submit-btn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span> Sending...';
 
-  document.getElementById('nhf').style.display='none';
-  document.getElementById('fsuccess').style.display='block';
-  document.getElementById('fsuccess').scrollIntoView({behavior:'smooth',block:'center'});
+  var params={
+    from_name:    g('fname')+' '+g('lname'),
+    reply_to:     g('pemail'),
+    dob:          g('dob'),
+    preferred:    g('preferred')||'—',
+    addr1:        g('addr1')+(g('addr2')?', '+g('addr2'):''),
+    city:         g('city'),
+    pstate:       g('pstate'),
+    zip:          g('zip'),
+    phone:        g('phone'),
+    pemail:       g('pemail'),
+    startdate:    g('startdate'),
+    position:     g('position'),
+    office:       g('office'),
+    emptype:      g('emptype'),
+    ecname:       g('ecname'),
+    ecrel:        g('ecrel'),
+    ecphone:      g('ecphone'),
+    message:      'New hire personal information submission from the QLG onboarding portal.'
+  };
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+    .then(function(){
+      document.getElementById('nhf').style.display='none';
+      document.getElementById('fsuccess').style.display='block';
+      document.getElementById('fsuccess').scrollIntoView({behavior:'smooth',block:'center'});
+    })
+    .catch(function(err){
+      btn.disabled=false;
+      btn.innerHTML='✉ Submit Information';
+      alert('There was a problem sending your information. Please try again or email kmk@qrlegal.com directly.\n\nError: '+JSON.stringify(err));
+    });
 });
+
+// ── ID DOCUMENTS → EMAILJS ───────────────────────────────
+function sendIDs(){
+  var id1Type=document.getElementById('id1-type').value;
+  var id1File=document.getElementById('id1-file').files[0];
+  var errType=document.getElementById('e-id1-type');
+  var errFile=document.getElementById('e-id1-file');
+
+  // Validate required fields
+  var ok=true;
+  if(!id1Type){errType.style.display='block';ok=false;}else{errType.style.display='none';}
+  if(!id1File){errFile.style.display='block';ok=false;}else{errFile.style.display='none';}
+  if(!ok){document.getElementById('id1-type').scrollIntoView({behavior:'smooth',block:'center'});return;}
+
+  var btn=document.getElementById('send-ids-btn');
+  var result=document.getElementById('id-result');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span> Sending...';
+  result.className='id-result';
+  result.style.display='none';
+
+  // Convert files to base64 then send
+  var id2File=document.getElementById('id2-file').files[0];
+  var id2Type=document.getElementById('id2-type').value||'Not provided';
+
+  // Get new hire name from form if filled, else use generic label
+  var fname=(document.getElementById('fname')||{}).value||'';
+  var lname=(document.getElementById('lname')||{}).value||'';
+  var hiName=fname&&lname?fname+' '+lname:'New Hire';
+
+  Promise.all([
+    toBase64(id1File),
+    id2File?toBase64(id2File):Promise.resolve(null)
+  ]).then(function(results){
+    var params={
+      from_name:  hiName,
+      reply_to:   (document.getElementById('pemail')||{}).value||'',
+      id1_type:   id1Type,
+      id2_type:   id2Type,
+      id1_file:   results[0],
+      id2_file:   results[1]||'No secondary document provided',
+      message:    'ID document submission from the QLG onboarding portal.\n\nDocument 1: '+id1Type+'\nDocument 2: '+id2Type
+    };
+    return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+  })
+  .then(function(){
+    btn.innerHTML='✓ IDs Sent Successfully';
+    result.className='id-result ok';
+    result.textContent='Your ID documents have been sent to kmk@qrlegal.com. Remember to bring originals on your first day.';
+    result.style.display='block';
+  })
+  .catch(function(err){
+    btn.disabled=false;
+    btn.innerHTML='✉ Send ID Documents to Administrator';
+    result.className='id-result err';
+    result.textContent='There was a problem sending your documents. Please try again or email kmk@qrlegal.com directly.';
+    result.style.display='block';
+    console.error('EmailJS error:',err);
+  });
+}
 </script>
 
 </body>
